@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MBran.Core.Extensions
+namespace MBran.Components.Extensions
 {
     public static class HttpRequestExtensions
     {

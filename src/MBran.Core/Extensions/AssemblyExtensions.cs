@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core;
 
-namespace MBran.Core.Extensions
+namespace MBran.Components.Extensions
 {
     public static class AssemblyExtensions
     {

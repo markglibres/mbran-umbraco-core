@@ -217,8 +217,12 @@
     <Compile Include="Extensions\ViewEngineExtensions.cs" />
     <Compile Include="Helpers\ContentHelper.cs" />
     <Compile Include="Helpers\IContentHelper.cs" />
-    <Compile Include="Helpers\ModelsHelper.cs" />
+    <Compile Include="Models\DocTypeDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DocTypeService.cs" />
+    <Compile Include="Services\IDocTypeService.cs" />
+    <Compile Include="Services\ISiteDomainService.cs" />
+    <Compile Include="Services\SiteDomainService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

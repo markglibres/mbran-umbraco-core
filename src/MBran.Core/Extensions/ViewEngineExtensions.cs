@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace MBran.Core.Extensions
+namespace MBran.Components.Extensions
 {
     public static class ViewEngineExtensions
     {

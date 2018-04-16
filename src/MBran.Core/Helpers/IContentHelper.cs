@@ -2,7 +2,7 @@
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 
-namespace MBran.Core.Helpers
+namespace MBran.Components.Helpers
 {
     public interface IContentHelper
     {

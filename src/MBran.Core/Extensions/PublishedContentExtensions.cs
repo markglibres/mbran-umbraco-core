@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MBran.Core.Services;
+using Our.Umbraco.Ditto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using MBran.Core.Helpers;
-using Our.Umbraco.Ditto;
+using Umbraco.Core;
 using Umbraco.Core.Models;
 
-namespace MBran.Core.Extensions
+namespace MBran.Components.Extensions
 {
     public static class PublishedContentExtensions
     {
@@ -21,8 +22,9 @@ namespace MBran.Core.Extensions
 
         public static Type StronglyTyped(this IPublishedContent content)
         {
+            var docTypeService = new DocTypeService(ApplicationContext.Current.Services.ContentTypeService);
             var docTypeAlias = content.GetDocumentTypeAlias();
-            return ModelsHelper.Instance.StronglyTypedPublishedContent(docTypeAlias);
+            return docTypeService.GetStronglyTypedPublishedContent(docTypeAlias);
         }
 
         public static string GetDocumentTypeAlias(this IPublishedContent content)
