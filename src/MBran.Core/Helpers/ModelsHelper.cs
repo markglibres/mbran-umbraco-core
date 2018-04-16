@@ -1,25 +1,38 @@
-﻿using MBran.Core.Extensions;
-using System;
+﻿using System;
 using System.Linq;
+using MBran.Core.Extensions;
 using Umbraco.Core.Models.PublishedContent;
 
 namespace MBran.Core.Helpers
 {
     public class ModelsHelper
     {
+        private ModelsHelper()
+        {
+        }
+
         private static Lazy<ModelsHelper> _helper => new Lazy<ModelsHelper>(() => new ModelsHelper());
         public static ModelsHelper Instance => _helper.Value;
 
-        private ModelsHelper()
+        public Type StronglyTypedPublishedContent(string docTypeAlias)
         {
-
+            return AppDomain.CurrentDomain
+                .FindImplementations<PublishedContentModel>()
+                .FirstOrDefault(model => model.Name.Equals(docTypeAlias, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public Type StronglyTyped(string docTypeAlias)
+        public Type StronglyTypedPoco(string modelTypeFullName)
         {
-            return AppDomain.CurrentDomain.FindImplementations<PublishedContentModel>()
-                .Where(model => model.Name.Equals(docTypeAlias, StringComparison.InvariantCultureIgnoreCase))
-                .FirstOrDefault();
+            return !string.IsNullOrWhiteSpace(modelTypeFullName)
+                ? AppDomain.CurrentDomain.FindImplementation(modelTypeFullName)
+                : null;
+        }
+
+        public Type StronglyTypedPocoByName(string typeName)
+        {
+            return !string.IsNullOrWhiteSpace(typeName)
+                ? AppDomain.CurrentDomain.FindImplementations(typeName).FirstOrDefault()
+                : null;
         }
     }
 }

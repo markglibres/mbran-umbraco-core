@@ -1,52 +1,34 @@
-﻿using MBran.Core.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MBran.Core.Helpers;
+using Our.Umbraco.Ditto;
 using Umbraco.Core.Models;
-using Umbraco.Core.Models.PublishedContent;
 
 namespace MBran.Core.Extensions
 {
     public static class PublishedContentExtensions
     {
-        public static T As<T>(this IPublishedContent content)
-            where T : PublishedContentModel
-        {
-            var newObject = (T)Activator.CreateInstance(typeof(T), content);
-            return newObject;
-        }
-
-        public static object As(this IPublishedContent content, Type type)
-        {
-            var newObject = Activator.CreateInstance(type, content);
-            return newObject;
-        }
-
-        public static IEnumerable<T> ConvertTo<T>(this IEnumerable<IPublishedContent> content)
-            where T : PublishedContentModel
+        public static IEnumerable<T> MapEnumerable<T>(this IEnumerable<IPublishedContent> content)
+            where T : class
         {
             if (content != null)
-            {
                 return content
                     .Select(c => c.As<T>())
                     .Where(c => c != null);
-            }
             return new List<T>();
         }
 
         public static Type StronglyTyped(this IPublishedContent content)
         {
             var docTypeAlias = content.GetDocumentTypeAlias();
-            return ModelsHelper.Instance.StronglyTyped(docTypeAlias);
+            return ModelsHelper.Instance.StronglyTypedPublishedContent(docTypeAlias);
         }
 
         public static string GetDocumentTypeAlias(this IPublishedContent content)
         {
             var docType = content.DocumentTypeAlias;
-            return Char.ToUpperInvariant(docType[0]) + docType.Substring(1);
-
+            return char.ToUpperInvariant(docType[0]) + docType.Substring(1);
         }
-
-        
     }
 }
