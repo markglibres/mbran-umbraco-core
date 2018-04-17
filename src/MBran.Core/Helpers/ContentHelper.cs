@@ -1,31 +1,31 @@
-﻿using Our.Umbraco.Ditto;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Our.Umbraco.Ditto;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 
-namespace MBran.Components.Helpers
+namespace MBran.Core.Helpers
 {
     public class ContentHelper : IContentHelper
     {
-        private static Lazy<ContentHelper> _helper = new Lazy<ContentHelper>(() => new ContentHelper());
-        public static ContentHelper Instance => _helper.Value;
+        private static readonly Lazy<ContentHelper> Helper = new Lazy<ContentHelper>(() => new ContentHelper());
 
         private readonly UmbracoHelper _umbracoHelper;
+
         private ContentHelper()
         {
             _umbracoHelper = new UmbracoHelper(UmbracoContext.Current);
         }
 
+        public static ContentHelper Instance => Helper.Value;
+
         public IEnumerable<T> GetDescendants<T>(int startId) where T : class, IPublishedContent
         {
             var startNode = _umbracoHelper.TypedContent(startId);
             if (startNode == null || startNode.Id <= 0)
-            {
                 return new List<T>();
-            }
 
             var children = startNode.Descendants<T>()
                 .Where(c => c.Id > 0);
@@ -37,9 +37,7 @@ namespace MBran.Components.Helpers
         {
             var startNode = _umbracoHelper.TypedContent(startId);
             if (startNode == null || startNode.Id <= 0)
-            {
                 return new List<T>();
-            }
 
             var children = startNode.DescendantsOrSelf<T>().ToList();
             return children;
@@ -49,9 +47,7 @@ namespace MBran.Components.Helpers
         {
             var startNode = _umbracoHelper.TypedContent(startId);
             if (startNode == null || startNode.Id <= 0)
-            {
                 return default(T);
-            }
 
             var descendant = startNode.Descendant<T>();
 
@@ -62,9 +58,7 @@ namespace MBran.Components.Helpers
         {
             var startNode = _umbracoHelper.TypedContent(startId);
             if (startNode == null || startNode.Id <= 0)
-            {
                 return default(T);
-            }
 
             var descendant = startNode.DescendantOrSelf<T>();
             return descendant;
@@ -74,9 +68,7 @@ namespace MBran.Components.Helpers
         {
             var startNode = _umbracoHelper.TypedContent(startId);
             if (startNode == null || startNode.Id <= 0)
-            {
                 return new List<T>();
-            }
 
             var children = startNode.Ancestors<T>()
                 .Where(c => c.Id > 0);
@@ -88,9 +80,7 @@ namespace MBran.Components.Helpers
         {
             var startNode = _umbracoHelper.TypedContent(startId);
             if (startNode == null || startNode.Id <= 0)
-            {
                 return new List<T>();
-            }
 
             var children = startNode.AncestorsOrSelf<T>().ToList();
             return children;
@@ -100,9 +90,7 @@ namespace MBran.Components.Helpers
         {
             var startNode = _umbracoHelper.TypedContent(startId);
             if (startNode == null || startNode.Id <= 0)
-            {
                 return default(T);
-            }
 
             var ancestor = startNode.Ancestor<T>();
 
@@ -113,9 +101,7 @@ namespace MBran.Components.Helpers
         {
             var startNode = _umbracoHelper.TypedContent(startId);
             if (startNode == null || startNode.Id <= 0)
-            {
                 return default(T);
-            }
 
             var ancestor = startNode.Ancestor<T>();
             return ancestor;

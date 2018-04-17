@@ -1,12 +1,12 @@
-﻿using MBran.Core.Services;
-using Our.Umbraco.Ditto;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MBran.Core.Services;
+using Our.Umbraco.Ditto;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 
-namespace MBran.Components.Extensions
+namespace MBran.Core.Extensions
 {
     public static class PublishedContentExtensions
     {

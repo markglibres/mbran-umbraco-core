@@ -1,8 +1,8 @@
-﻿using MBran.Components.Extensions;
-using MBran.Core.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MBran.Core.Extensions;
+using MBran.Core.Models;
 using Umbraco.Core;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.Services;
@@ -12,6 +12,7 @@ namespace MBran.Core.Services
     public class DocTypeService : IDocTypeService
     {
         private readonly IContentTypeService _contentTypeService;
+
         public DocTypeService(IContentTypeService contentTypeService)
         {
             _contentTypeService = contentTypeService;
@@ -21,7 +22,7 @@ namespace MBran.Core.Services
         {
             var cacheName = string.Join("_", GetType().FullName, nameof(GetDocTypeDefinition), docTypeAlias);
 
-            return (DocTypeDefinition)ApplicationContext.Current
+            return (DocTypeDefinition) ApplicationContext.Current
                 .ApplicationCache
                 .RequestCache
                 .GetCacheItem(cacheName, () =>
@@ -44,7 +45,7 @@ namespace MBran.Core.Services
         {
             var cacheName = string.Join("_", GetType().FullName, nameof(GetDocTypes));
 
-            return (IEnumerable<DocTypeDefinition>)ApplicationContext.Current
+            return (IEnumerable<DocTypeDefinition>) ApplicationContext.Current
                 .ApplicationCache
                 .RequestCache
                 .GetCacheItem(cacheName, () =>
@@ -63,7 +64,7 @@ namespace MBran.Core.Services
         {
             if (!docTypeAliases?.Any() ?? true) return new List<DocTypeDefinition>();
 
-            return docTypeAliases.Select(docType => GetDocTypeDefinition(docType));
+            return docTypeAliases.Select(GetDocTypeDefinition);
         }
 
         public Type GetStronglyTypedPoco(string modelTypeFullName)

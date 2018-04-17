@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core;
 
-namespace MBran.Components.Extensions
+namespace MBran.Core.Extensions
 {
     public static class AssemblyExtensions
     {
@@ -46,9 +46,10 @@ namespace MBran.Components.Extensions
             return domain.GetAssemblies()
                 .Where(assembly => !assembly.GlobalAssemblyCache)
                 .SelectMany(assembly => assembly.GetTypes())
+                .WhereNotNull()
                 .Where(findType.IsAssignableFrom)
                 .Where(type => string.IsNullOrWhiteSpace(typeFullName) ||
-                               type.FullName.Equals(typeFullName, StringComparison.InvariantCultureIgnoreCase)
+                               (type.FullName?.Equals(typeFullName, StringComparison.InvariantCultureIgnoreCase) ?? false)
                 );
         }
 
@@ -59,8 +60,8 @@ namespace MBran.Components.Extensions
                 .Where(assembly => !assembly.GlobalAssemblyCache)
                 .SelectMany(assembly => assembly.GetTypes())
                 .FirstOrDefault(type =>
-                    type.FullName.Equals(objectFullName, StringComparison.InvariantCultureIgnoreCase)
-                    || type.AssemblyQualifiedName.Equals(objectFullName, StringComparison.InvariantCultureIgnoreCase));
+                    (type.FullName?.Equals(objectFullName, StringComparison.InvariantCultureIgnoreCase) ?? false)
+                    || (type.AssemblyQualifiedName?.Equals(objectFullName, StringComparison.InvariantCultureIgnoreCase) ?? false));
         }
 
         internal static IEnumerable<Type> GetImplementationByName(AppDomain domain, string name)

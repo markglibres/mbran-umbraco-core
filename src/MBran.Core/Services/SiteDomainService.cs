@@ -37,9 +37,9 @@ namespace MBran.Core.Services
         {
             var domainService = ApplicationContext.Current.Services.DomainService;
             return domainService
-                       ?.GetAll(true)
-                       .FirstOrDefault(domain => domain.DomainName.Equals(GetDomainName(),
-                           StringComparison.InvariantCultureIgnoreCase));
+                ?.GetAll(true)
+                .FirstOrDefault(domain => domain.DomainName.Equals(GetDomainName(),
+                    StringComparison.InvariantCultureIgnoreCase));
         }
 
         public CultureInfo GetSiteCulture()
@@ -47,11 +47,9 @@ namespace MBran.Core.Services
             var domain = GetCurrentDomain();
             var localizationService = ApplicationContext.Current.Services.LocalizationService;
             if (domain?.LanguageId == null)
-            {
                 return CultureInfo.CurrentCulture;
-            }
 
-            return localizationService.GetLanguageById((int)domain?.LanguageId).CultureInfo;
+            return localizationService.GetLanguageById((int) domain.LanguageId).CultureInfo;
         }
 
         public string GetDomainName()

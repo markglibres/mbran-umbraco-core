@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MBran.Components.Extensions
+namespace MBran.Core.Extensions
 {
     public static class HttpRequestExtensions
     {
@@ -14,13 +14,11 @@ namespace MBran.Components.Extensions
             var curFilters = new List<T>();
 
             if (!string.IsNullOrEmpty(filters))
-            {
                 curFilters.AddRange(filters
                     .Split(',')
                     .Where(p => !string.IsNullOrEmpty(p))
-                    .Select(p => (T)Convert.ChangeType(p, typeof(T)))
+                    .Select(p => (T) Convert.ChangeType(p, typeof(T)))
                 );
-            }
             return curFilters;
         }
 
@@ -36,13 +34,12 @@ namespace MBran.Components.Extensions
             var paramVal = context.Request.Params[queryString];
             try
             {
-                return (T)Convert.ChangeType(paramVal, typeof(T));
+                return (T) Convert.ChangeType(paramVal, typeof(T));
             }
             catch
             {
                 return default(T);
             }
-
         }
 
         public static string GetCurrentFullDomain(this HttpContext context)
@@ -56,6 +53,5 @@ namespace MBran.Components.Extensions
             var uri = context.Request.Url;
             return uri.Authority;
         }
-
     }
 }
